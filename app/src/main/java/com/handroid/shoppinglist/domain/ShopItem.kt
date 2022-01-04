@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "shop_list")
 data class ShopItem(
-    @PrimaryKey
     val name: String,
     val count: Int,
     val isSelected: Boolean,
