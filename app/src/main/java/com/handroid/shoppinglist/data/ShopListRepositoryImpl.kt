@@ -3,24 +3,36 @@ package com.handroid.shoppinglist.data
 import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.domain.ShopListRepository
 
-object ShopListRepositoryImpl:ShopListRepository {
+object ShopListRepositoryImpl : ShopListRepository {
+
+    private val shopList = mutableListOf<ShopItem>()
+
+    private var autoIncrementId = 0
+
     override fun addShopItem(shopItem: ShopItem) {
-        TODO("Not yet implemented")
+        if (shopItem.id== ShopItem.UNDEFINED_ID){
+            shopItem.id = autoIncrementId++
+        }
+        shopList.add(shopItem)
     }
 
     override fun removeShopItem(shopItem: ShopItem) {
-        TODO("Not yet implemented")
+        shopList.remove(shopItem)
     }
 
     override fun editShopItem(shopItem: ShopItem) {
-        TODO("Not yet implemented")
+        val oldElement = getShopItem(shopItem.id)
+        shopList.remove(oldElement)
+        shopList.add(shopItem)
     }
 
     override fun getShopItem(shopItemId: Int): ShopItem {
-        TODO("Not yet implemented")
+        return shopList.find {
+            it.id == shopItemId
+        } ?: throw RuntimeException("Element with id $shopItemId not found")
     }
 
     override fun getShopList(): List<ShopItem> {
-        TODO("Not yet implemented")
+        return shopList.toList()
     }
 }
