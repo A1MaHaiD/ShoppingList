@@ -1,7 +1,8 @@
 package com.handroid.shoppinglist.domain
 
-class RemoveShopItemUseCase {
-    fun removeShopItem(shopItem: ShopItem){
+class RemoveShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
+    fun removeShopItem(shopItem: ShopItem){
+        shopListRepository.removeShopItem(shopItem)
     }
 }
