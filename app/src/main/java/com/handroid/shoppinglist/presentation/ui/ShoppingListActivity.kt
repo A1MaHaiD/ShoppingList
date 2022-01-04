@@ -11,6 +11,7 @@ class ShoppingListActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityShoppingListBinding
     private lateinit var viewModel: ShoppingListViewModel
+    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,9 +20,14 @@ class ShoppingListActivity : AppCompatActivity() {
         setContentView(view)
 
         viewModel = ViewModelProvider(this)[ShoppingListViewModel::class.java]
-        viewModel.shopList.observe(this){
-            Log.i("ShoppingListActivity","element $it")
+        viewModel.shopList.observe(this) {
+            Log.i("ShoppingListActivity", "element $it")
+            if (count == 0) {
+                count++
+                val item = it[0]
+                viewModel.changeSelectedState(item)
+                Log.i("ChangeTest", "change element $it")
+            }
         }
-        viewModel.getShopList()
     }
 }
