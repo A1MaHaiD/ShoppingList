@@ -1,15 +1,19 @@
 package com.handroid.shoppinglist.presentation.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.handroid.shoppinglist.R
 import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.presentation.adapters.viewholders.ShopItemVH
+import java.lang.RuntimeException
 
 class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
 
+    var count = 0
     var shopList = listOf<ShopItem>()
         set(value) {
             field = value
@@ -17,41 +21,37 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemVH {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_shop_unselected,
-            parent,
-            false
-        )
-        return ShopItemVH(view)
+        Log.i("ShopListAdapter", "onCreatedViewHolder: ${++count}")
+        val layout = when (viewType){
+             IS_SELECTED -> LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_shop_selected,
+                    parent,
+                    false
+                )
+            NOT_SELECTED -> LayoutInflater.from(parent.context).inflate(
+                R.layout.item_shop_unselected,
+                parent,
+                false
+            )
+            else -> throw RuntimeException("Unknown view type: $viewType")
+        }
+        return ShopItemVH(layout)
     }
 
     override fun onBindViewHolder(viewHolder: ShopItemVH, position: Int) {
         val shopItem = shopList[position]
-        val statusSelected = if (shopItem.isSelected) {
-            "Active"
-        } else {
-            "Inactive"
-        }
         with(viewHolder) {
             itemView.setOnLongClickListener {
                 true
             }
-            if (shopItem.isSelected) {
-                tvName.text = "${shopItem.name} $statusSelected"
-                tvCount.text = shopItem.count.toString()
-                tvName.setTextColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        android.R.color.holo_red_light
-                    )
-                )
-            }
+            tvName.text = shopItem.name
+            tvCount.text = shopItem.count.toString()
         }
     }
 
     override fun onViewRecycled(viewHolder: ShopItemVH) {
         super.onViewRecycled(viewHolder)
-        with(viewHolder){
+        with(viewHolder) {
             tvName.text = ""
             tvCount.text = ""
             tvName.setTextColor(
@@ -63,11 +63,21 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
         }
     }
 
-/*        override fun getItemViewType(position: Int): Int {
-        return position
-    }*/
+    override fun getItemViewType(position: Int): Int {
+        val item = shopList[position]
+        return if (item.isSelected) {
+            IS_SELECTED
+        } else {
+            NOT_SELECTED
+        }
+    }
 
     override fun getItemCount(): Int {
         return shopList.size
+    }
+
+    companion object {
+        const val IS_SELECTED = 100
+        const val NOT_SELECTED = 101
     }
 }
