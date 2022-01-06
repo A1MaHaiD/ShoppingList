@@ -6,7 +6,7 @@
     app:cardElevation="@dimen/elevation_1"
     app:cardUseCompatPadding="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/spacing_small_8"
     android:layout_marginTop="@dimen/spacing_small_4"
     android:layout_marginEnd="@dimen/spacing_small_8"
@@ -37,7 +37,6 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         tools:text="@string/count_2" />
-
 
     </LinearLayout>
 
