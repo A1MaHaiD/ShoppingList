@@ -33,12 +33,12 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
             "Inactive"
         }
         with(viewHolder) {
-            tvName.text = "${shopItem.name} $statusSelected"
-            tvCount.text = shopItem.count.toString()
             itemView.setOnLongClickListener {
                 true
             }
             if (shopItem.isSelected) {
+                tvName.text = "${shopItem.name} $statusSelected"
+                tvCount.text = shopItem.count.toString()
                 tvName.setTextColor(
                     ContextCompat.getColor(
                         itemView.context,
@@ -47,8 +47,25 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
                 )
             }
         }
-
     }
+
+    override fun onViewRecycled(viewHolder: ShopItemVH) {
+        super.onViewRecycled(viewHolder)
+        with(viewHolder){
+            tvName.text = ""
+            tvCount.text = ""
+            tvName.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    android.R.color.white
+                )
+            )
+        }
+    }
+
+/*        override fun getItemViewType(position: Int): Int {
+        return position
+    }*/
 
     override fun getItemCount(): Int {
         return shopList.size
