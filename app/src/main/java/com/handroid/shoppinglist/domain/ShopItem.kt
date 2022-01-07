@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "shop_list")
-data class ShopItem(
+data class  ShopItem(
     val name: String,
     val count: Int,
     val isSelected: Boolean,
@@ -12,7 +12,6 @@ data class ShopItem(
     var id: Int = UNDEFINED_ID
 ){
     companion object{
-
         const val UNDEFINED_ID = -1
     }
 }
