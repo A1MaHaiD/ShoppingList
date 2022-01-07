@@ -2,7 +2,6 @@ package com.handroid.shoppinglist.presentation.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +18,8 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
             field = value
             notifyDataSetChanged()
         }
+    var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemVH {
         Log.i("ShopListAdapter", "onCreatedViewHolder: ${++count}")
@@ -38,15 +39,21 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
     override fun onBindViewHolder(viewHolder: ShopItemVH, position: Int) {
         val shopItem = shopList[position]
         with(viewHolder) {
-            itemView.setOnLongClickListener {
-                true
+            with(itemView) {
+                setOnLongClickListener {
+                    onShopItemLongClickListener?.invoke(shopItem)
+                    true
+                }
+                setOnClickListener {
+                    onShopItemClickListener?.invoke(shopItem)
+                }
             }
             tvName.text = shopItem.name
             tvCount.text = shopItem.count.toString()
         }
     }
 
-    /*override fun onViewRecycled(viewHolder: ShopItemVH) {
+    override fun onViewRecycled(viewHolder: ShopItemVH) {
         super.onViewRecycled(viewHolder)
         with(viewHolder) {
             tvName.text = ""
@@ -58,7 +65,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
                 )
             )
         }
-    }*/
+    }
 
     override fun getItemViewType(position: Int): Int {
         val item = shopList[position]
@@ -77,5 +84,9 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
         const val IS_SELECTED = 100
         const val NOT_SELECTED = 101
         const val MAX_POOL_SIZE = 12
+    }
+
+    interface OnShopItemLongClickListener {
+        fun onShopItemLongClick(shopItem: ShopItem)
     }
 }
