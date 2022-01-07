@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.handroid.shoppinglist.databinding.ActivityShoppingListBinding
+import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.presentation.adapters.ShopListAdapter
+import com.handroid.shoppinglist.presentation.adapters.viewholders.ShopItemVH
 import com.handroid.shoppinglist.presentation.viewmodel.ShoppingListViewModel
 
 class ShoppingListActivity : AppCompatActivity() {
@@ -29,5 +31,15 @@ class ShoppingListActivity : AppCompatActivity() {
         val recyclerView = binding.rvShopList
         adapter = ShopListAdapter()
         recyclerView.adapter = adapter
+        with(recyclerView.recycledViewPool) {
+            setMaxRecycledViews(
+                ShopListAdapter.IS_SELECTED,
+                ShopListAdapter.MAX_POOL_SIZE
+            )
+            setMaxRecycledViews(
+                ShopListAdapter.NOT_SELECTED,
+                ShopListAdapter.MAX_POOL_SIZE
+            )
+        }
     }
 }

@@ -22,20 +22,17 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemVH {
         Log.i("ShopListAdapter", "onCreatedViewHolder: ${++count}")
-        val layout = when (viewType){
-             IS_SELECTED -> LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_shop_selected,
-                    parent,
-                    false
-                )
-            NOT_SELECTED -> LayoutInflater.from(parent.context).inflate(
-                R.layout.item_shop_unselected,
-                parent,
-                false
-            )
+        val layout = when (viewType) {
+            IS_SELECTED -> R.layout.item_shop_selected
+            NOT_SELECTED -> R.layout.item_shop_unselected
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
-        return ShopItemVH(layout)
+        val view = LayoutInflater.from(parent.context).inflate(
+            layout,
+            parent,
+            false
+        )
+        return ShopItemVH(view)
     }
 
     override fun onBindViewHolder(viewHolder: ShopItemVH, position: Int) {
@@ -49,7 +46,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
         }
     }
 
-    override fun onViewRecycled(viewHolder: ShopItemVH) {
+    /*override fun onViewRecycled(viewHolder: ShopItemVH) {
         super.onViewRecycled(viewHolder)
         with(viewHolder) {
             tvName.text = ""
@@ -61,7 +58,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
                 )
             )
         }
-    }
+    }*/
 
     override fun getItemViewType(position: Int): Int {
         val item = shopList[position]
@@ -79,5 +76,6 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
     companion object {
         const val IS_SELECTED = 100
         const val NOT_SELECTED = 101
+        const val MAX_POOL_SIZE = 12
     }
 }
