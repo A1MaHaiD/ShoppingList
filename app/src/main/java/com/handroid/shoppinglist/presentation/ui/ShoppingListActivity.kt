@@ -6,14 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.handroid.shoppinglist.databinding.ActivityShoppingListBinding
 import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.presentation.adapters.ShopListAdapter
-import com.handroid.shoppinglist.presentation.adapters.viewholders.ShopItemVH
 import com.handroid.shoppinglist.presentation.viewmodel.ShoppingListViewModel
 
 class ShoppingListActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityShoppingListBinding
     private lateinit var viewModel: ShoppingListViewModel
-    private lateinit var adapter: ShopListAdapter
+    private lateinit var shopListAdapter: ShopListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,23 +22,28 @@ class ShoppingListActivity : AppCompatActivity() {
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[ShoppingListViewModel::class.java]
         viewModel.shopList.observe(this) {
-            adapter.shopList = it
+            shopListAdapter.shopList = it
         }
     }
 
     private fun setupRecyclerView() {
         val recyclerView = binding.rvShopList
-        adapter = ShopListAdapter()
-        recyclerView.adapter = adapter
-        with(recyclerView.recycledViewPool) {
-            setMaxRecycledViews(
-                ShopListAdapter.IS_SELECTED,
-                ShopListAdapter.MAX_POOL_SIZE
-            )
-            setMaxRecycledViews(
-                ShopListAdapter.NOT_SELECTED,
-                ShopListAdapter.MAX_POOL_SIZE
-            )
+        with(recyclerView) {
+            shopListAdapter = ShopListAdapter()
+            adapter = shopListAdapter
+            with(recycledViewPool) {
+                setMaxRecycledViews(
+                    ShopListAdapter.IS_SELECTED,
+                    ShopListAdapter.MAX_POOL_SIZE
+                )
+                setMaxRecycledViews(
+                    ShopListAdapter.NOT_SELECTED,
+                    ShopListAdapter.MAX_POOL_SIZE
+                )
+            }
+        }
+        shopListAdapter.onShopItemLongClickListener = {
+            viewModel.changeSelectedState(it)
         }
     }
 }

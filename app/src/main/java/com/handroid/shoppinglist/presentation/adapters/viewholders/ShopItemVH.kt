@@ -9,9 +9,3 @@ class ShopItemVH(view: View) : RecyclerView.ViewHolder(view) {
     val tvName = binding.tvName
     val tvCount = binding.tvCount
 }
-
-//class ShopItemVH(view: View) : RecyclerView.ViewHolder(view) {
-//    private val binding = ItemShopSelectedBinding.bind(view)
-//    val tvName = binding.tvName
-//    val tvCount = binding.tvCount
-//}
