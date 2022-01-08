@@ -49,7 +49,6 @@ class ShoppingListActivity : AppCompatActivity() {
             setupOnClickListener()
             setupSwipeListener()
         }
-
     }
 
     private fun ShopListAdapter.setupSwipeListener() {

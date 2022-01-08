@@ -4,15 +4,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.handroid.shoppinglist.R
 import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.presentation.adapters.viewholders.ShopItemVH
 import com.handroid.shoppinglist.presentation.utils.ShopItemDiffCallback
-import com.handroid.shoppinglist.presentation.utils.ShopListDiffCallback
-import java.lang.RuntimeException
 
 class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()) {
 
@@ -37,18 +33,17 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()
 
     override fun onBindViewHolder(viewHolder: ShopItemVH, position: Int) {
         Log.i("ShopListAdapter", "onBindViewHolder: ${++count}")
-
         val shopItem = getItem(position)
         with(viewHolder) {
-                view.setOnLongClickListener {
+            with(view){
+                setOnLongClickListener {
                     onShopItemLongClickListener?.invoke(shopItem)
-                    notifyItemChanged(position)
                     true
                 }
-                view.setOnClickListener {
+                setOnClickListener {
                     onShopItemClickListener?.invoke(shopItem)
                 }
-
+            }
             tvName.text = shopItem.name
             tvCount.text = shopItem.count.toString()
         }
