@@ -4,10 +4,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.handroid.shoppinglist.R
 import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.presentation.adapters.viewholders.ShopItemVH
+import com.handroid.shoppinglist.presentation.utils.ShopListDiffCallback
 import java.lang.RuntimeException
 
 class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
@@ -15,14 +17,15 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
     var count = 0
     var shopList = listOf<ShopItem>()
         set(value) {
+            val callBackDiff = ShopListDiffCallback(shopList,value)
+            val diffResult = DiffUtil.calculateDiff(callBackDiff)
+            diffResult.dispatchUpdatesTo(this)
             field = value
-            notifyDataSetChanged()
         }
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemVH {
-        Log.i("ShopListAdapter", "onCreatedViewHolder: ${++count}")
         val layout = when (viewType) {
             IS_SELECTED -> R.layout.item_shop_selected
             NOT_SELECTED -> R.layout.item_shop_unselected
@@ -37,6 +40,8 @@ class ShopListAdapter : RecyclerView.Adapter<ShopItemVH>() {
     }
 
     override fun onBindViewHolder(viewHolder: ShopItemVH, position: Int) {
+        Log.i("ShopListAdapter", "onBindViewHolder: ${++count}")
+
         val shopItem = shopList[position]
         with(viewHolder) {
             with(itemView) {
