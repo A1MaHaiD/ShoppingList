@@ -1,9 +1,7 @@
 package com.handroid.shoppinglist.presentation.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import com.handroid.shoppinglist.R
 import com.handroid.shoppinglist.domain.ShopItem
@@ -11,8 +9,6 @@ import com.handroid.shoppinglist.presentation.adapters.viewholders.ShopItemVH
 import com.handroid.shoppinglist.presentation.utils.ShopItemDiffCallback
 
 class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()) {
-
-    var count = 0
 
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
@@ -32,7 +28,6 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()
     }
 
     override fun onBindViewHolder(viewHolder: ShopItemVH, position: Int) {
-        Log.i("ShopListAdapter", "onBindViewHolder: ${++count}")
         val shopItem = getItem(position)
         with(viewHolder) {
             with(view){
@@ -46,20 +41,6 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()
             }
             tvName.text = shopItem.name
             tvCount.text = shopItem.count.toString()
-        }
-    }
-
-    override fun onViewRecycled(viewHolder: ShopItemVH) {
-        super.onViewRecycled(viewHolder)
-        with(viewHolder) {
-            tvName.text = ""
-            tvCount.text = ""
-            tvName.setTextColor(
-                ContextCompat.getColor(
-                    view.context,
-                    android.R.color.white
-                )
-            )
         }
     }
 

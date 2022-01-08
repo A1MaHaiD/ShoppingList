@@ -1,6 +1,5 @@
 package com.handroid.shoppinglist.presentation.viewmodel
 
-
 import androidx.lifecycle.ViewModel
 import com.handroid.shoppinglist.data.ShopListRepositoryImpl
 import com.handroid.shoppinglist.domain.*
