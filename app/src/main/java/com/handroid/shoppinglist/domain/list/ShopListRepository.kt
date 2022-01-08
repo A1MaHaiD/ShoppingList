@@ -1,6 +1,7 @@
-package com.handroid.shoppinglist.domain
+package com.handroid.shoppinglist.domain.list
 
 import androidx.lifecycle.LiveData
+import com.handroid.shoppinglist.domain.ShopItem
 
 interface ShopListRepository {
 
@@ -10,7 +11,7 @@ interface ShopListRepository {
 
     fun editShopItem(shopItem: ShopItem)
 
-    fun getShopItem(shopItemId: Int):ShopItem
+    fun getShopItem(shopItemId: Int): ShopItem
 
     fun getShopList(): LiveData<List<ShopItem>>
 }
