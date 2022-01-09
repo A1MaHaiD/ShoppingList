@@ -1,4 +1,6 @@
-package com.handroid.shoppinglist.domain
+package com.handroid.shoppinglist.domain.list
+
+import com.handroid.shoppinglist.domain.ShopItem
 
 class EditShopItemUseCase(private val shopListRepository: ShopListRepository) {
 

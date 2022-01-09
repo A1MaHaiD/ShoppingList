@@ -1,8 +1,11 @@
-package com.handroid.shoppinglist.presentation.viewmodel
+package com.handroid.shoppinglist.presentation.view_models
 
 import androidx.lifecycle.ViewModel
 import com.handroid.shoppinglist.data.ShopListRepositoryImpl
 import com.handroid.shoppinglist.domain.*
+import com.handroid.shoppinglist.domain.list.EditShopItemUseCase
+import com.handroid.shoppinglist.domain.list.GetShopListUseCase
+import com.handroid.shoppinglist.domain.list.RemoveShopItemUseCase
 
 class ShoppingListViewModel: ViewModel() {
 
