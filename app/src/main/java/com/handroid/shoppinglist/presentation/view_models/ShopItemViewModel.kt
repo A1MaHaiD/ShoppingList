@@ -22,11 +22,21 @@ class ShopItemViewModel : ViewModel() {
     fun addShopItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
         val count = parseCount(inputCount)
-        addShopItemUseCase.addShopItem(name, count)
+        val fieldsValid = validateInput(name, count)
+        if (fieldsValid) {
+            val shopItem = ShopItem(name, count, true)
+            addShopItemUseCase.addShopItem(shopItem)
+        }
     }
 
-    fun editShopItem(shopItem: ShopItem) {
-        editShopElementUseCase.editShopItem(shopItem)
+    fun editShopItem(inputName: String?, inputCount: String?) {
+        val name = parseName(inputName)
+        val count = parseCount(inputCount)
+        val fieldsValid = validateInput(name, count)
+        if (fieldsValid) {
+            val shopItem = ShopItem(name, count, true)
+            editShopElementUseCase.editShopItem(shopItem)
+        }
     }
 
     private fun parseName(inputName: String?): String {
@@ -39,5 +49,18 @@ class ShopItemViewModel : ViewModel() {
         } catch (e: Exception) {
             0
         }
+    }
+
+    private fun validateInput(name: String, count: Int): Boolean {
+        var result = true
+        if (name.isBlank()) {
+            // TODO: show error input name
+            result = false
+        }
+        if (count <= 0) {
+            // TODO: show error input count
+            result = false
+        }
+        return result
     }
 }
