@@ -1,4 +1,4 @@
-package com.handroid.shoppinglist.domain.list
+package com.handroid.shoppinglist.domain
 
 import androidx.lifecycle.LiveData
 import com.handroid.shoppinglist.domain.ShopItem

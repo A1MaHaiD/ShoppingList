@@ -3,7 +3,7 @@ package com.handroid.shoppinglist.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.handroid.shoppinglist.domain.ShopItem
-import com.handroid.shoppinglist.domain.list.ShopListRepository
+import com.handroid.shoppinglist.domain.ShopListRepository
 import kotlin.random.Random
 
 object ShopListRepositoryImpl : ShopListRepository {
