@@ -1,4 +1,4 @@
-package com.handroid.shoppinglist.presentation.ui
+package com.handroid.shoppinglist.presentation.ui.activities
 
 import android.content.Context
 import android.content.Intent
@@ -15,29 +15,29 @@ import com.handroid.shoppinglist.presentation.view_models.ShopItemViewModel
 
 class ShopItemActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: ShopItemViewModel
+//    private lateinit var viewModel: ShopItemViewModel
     private lateinit var binding: ActivityShopItemBinding
-    private lateinit var fieldName: TextInputEditText
+/*    private lateinit var fieldName: TextInputEditText
     private lateinit var fieldCount: TextInputEditText
 
     private var screenMode = MODE_UNKNOWN
-    private var shopItemId = ShopItem.UNDEFINED_ID
+    private var shopItemId = ShopItem.UNDEFINED_ID*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShopItemBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        parseIntent()
+        /*parseIntent()
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         fieldName = binding.tiEtName
         fieldCount = binding.tiEtCount
         addTextChangeListeners()
         launchRightMode()
-        observeViewModel()
+        observeViewModel()*/
     }
 
-    private fun observeViewModel(){
+    /*private fun observeViewModel(){
         viewModel.errorInputName.observe(this) {
             val errorMessage = if (it) {
                 getString(R.string.error_input_name)
@@ -129,7 +129,7 @@ class ShopItemActivity : AppCompatActivity() {
             }
             shopItemId = intent.getIntExtra(EXTRA_SHOP_ITEM_ID, ShopItem.UNDEFINED_ID)
         }
-    }
+    }*/
 
     companion object {
         private const val EXTRA_SCREEN_MODE = "extra_mode"
