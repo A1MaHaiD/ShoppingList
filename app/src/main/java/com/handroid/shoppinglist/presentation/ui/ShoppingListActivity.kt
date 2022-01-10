@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.handroid.shoppinglist.databinding.ActivityShoppingListBinding
 import com.handroid.shoppinglist.presentation.adapters.ShopListAdapter
+import com.handroid.shoppinglist.presentation.view_models.ShopItemViewModel
 import com.handroid.shoppinglist.presentation.view_models.ShoppingListViewModel
 
 class ShoppingListActivity : AppCompatActivity() {

@@ -3,9 +3,9 @@ package com.handroid.shoppinglist.presentation.view_models
 import androidx.lifecycle.ViewModel
 import com.handroid.shoppinglist.data.ShopListRepositoryImpl
 import com.handroid.shoppinglist.domain.*
-import com.handroid.shoppinglist.domain.list.EditShopItemUseCase
-import com.handroid.shoppinglist.domain.list.GetShopListUseCase
-import com.handroid.shoppinglist.domain.list.RemoveShopItemUseCase
+import com.handroid.shoppinglist.domain.EditShopItemUseCase
+import com.handroid.shoppinglist.domain.GetShopListUseCase
+import com.handroid.shoppinglist.domain.RemoveShopItemUseCase
 
 class ShoppingListViewModel: ViewModel() {
 
