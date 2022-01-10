@@ -1,14 +1,12 @@
 package com.handroid.shoppinglist.presentation.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.handroid.shoppinglist.databinding.ActivityShoppingListBinding
 import com.handroid.shoppinglist.presentation.adapters.ShopListAdapter
-import com.handroid.shoppinglist.presentation.view_models.ShopItemViewModel
 import com.handroid.shoppinglist.presentation.view_models.ShoppingListViewModel
 
 class ShoppingListActivity : AppCompatActivity() {
@@ -20,13 +18,19 @@ class ShoppingListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShoppingListBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[ShoppingListViewModel::class.java]
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
         }
+        val buttonAddItem = binding.fabAddShopItem
+        buttonAddItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
+        }
+        val view = binding.root
+        setContentView(view)
     }
 
     private fun setupRecyclerView() {
@@ -45,14 +49,12 @@ class ShoppingListActivity : AppCompatActivity() {
                 )
             }
         }
-        with(shopListAdapter) {
-            setupLongClickListener()
-            setupOnClickListener()
-            setupSwipeListener()
-        }
+        setupOnClickListener()
+        setupLongClickListener()
+        setupSwipeListener()
     }
 
-    private fun ShopListAdapter.setupSwipeListener() {
+    private fun setupSwipeListener() {
         val callBack = object :
             ItemTouchHelper.SimpleCallback(
                 0,
@@ -67,7 +69,7 @@ class ShoppingListActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = currentList[viewHolder.adapterPosition]
+                val item = shopListAdapter.currentList[viewHolder.adapterPosition]
                 viewModel.removeShopItem(item)
             }
         }
@@ -75,17 +77,15 @@ class ShoppingListActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(binding.rvShopList)
     }
 
-    private fun ShopListAdapter.setupOnClickListener() {
-        onShopItemClickListener = {
-            Log.i(
-                "onShopItemClickListener",
-                "item: ${it.id}, ${it.name}, ${it.count}"
-            )
+    private fun setupOnClickListener() {
+        shopListAdapter.onShopItemClickListener = {
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 
-    private fun ShopListAdapter.setupLongClickListener() {
-        onShopItemLongClickListener = {
+    private fun setupLongClickListener() {
+        shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeSelectedState(it)
         }
     }
