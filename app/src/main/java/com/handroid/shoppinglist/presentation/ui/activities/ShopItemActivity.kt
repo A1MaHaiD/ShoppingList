@@ -15,8 +15,8 @@ import com.handroid.shoppinglist.presentation.view_models.ShopItemViewModel
 
 class ShopItemActivity : AppCompatActivity() {
 
-//    private lateinit var viewModel: ShopItemViewModel
     private lateinit var binding: ActivityShopItemBinding
+//    private lateinit var viewModel: ShopItemViewModel
 /*    private lateinit var fieldName: TextInputEditText
     private lateinit var fieldCount: TextInputEditText
 
