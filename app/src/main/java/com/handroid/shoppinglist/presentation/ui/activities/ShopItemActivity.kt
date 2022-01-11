@@ -6,35 +6,36 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.handroid.shoppinglist.R
 import com.handroid.shoppinglist.databinding.ActivityShopItemBinding
 import com.handroid.shoppinglist.domain.ShopItem
+import com.handroid.shoppinglist.presentation.ui.fragments.ShopItemFragment
 import com.handroid.shoppinglist.presentation.view_models.ShopItemViewModel
 
 class ShopItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityShopItemBinding
-//    private lateinit var viewModel: ShopItemViewModel
-/*    private lateinit var fieldName: TextInputEditText
-    private lateinit var fieldCount: TextInputEditText
+    private lateinit var container: FragmentContainerView
 
     private var screenMode = MODE_UNKNOWN
-    private var shopItemId = ShopItem.UNDEFINED_ID*/
+    private var shopItemId = ShopItem.UNDEFINED_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShopItemBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        /*parseIntent()
-        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
+        container = binding.shopItemContainer
+        parseIntent()
+        /*viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         fieldName = binding.tiEtName
         fieldCount = binding.tiEtCount
-        addTextChangeListeners()
+        addTextChangeListeners()*/
         launchRightMode()
-        observeViewModel()*/
+//        observeViewModel()
     }
 
     /*private fun observeViewModel(){
@@ -57,16 +58,20 @@ class ShopItemActivity : AppCompatActivity() {
         viewModel.shouldCloseScreen.observe(this) {
             finish()
         }
-    }
+    }*/
 
-    private fun launchRightMode(){
-        when (screenMode) {
-            MODE_EDIT -> launchEditMode()
-            MODE_ADD -> launchAddMode()
+    private fun launchRightMode() {
+        val fragment = when (screenMode) {
+            MODE_EDIT -> ShopItemFragment.newInstanceEditItem(shopItemId)
+            MODE_ADD -> ShopItemFragment.newInstanceAddItem()
+            else -> throw RuntimeException("Unknown screen mode $screenMode")
         }
+        supportFragmentManager.beginTransaction()
+            .add(container.id, fragment)
+            .commit()
     }
 
-    private fun addTextChangeListeners(){
+    /*private fun addTextChangeListeners(){
         fieldName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -112,7 +117,7 @@ class ShopItemActivity : AppCompatActivity() {
                 fieldCount.text?.toString()
             )
         }
-    }
+    }*/
 
     private fun parseIntent() {
         if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
@@ -129,7 +134,7 @@ class ShopItemActivity : AppCompatActivity() {
             }
             shopItemId = intent.getIntExtra(EXTRA_SHOP_ITEM_ID, ShopItem.UNDEFINED_ID)
         }
-    }*/
+    }
 
     companion object {
         private const val EXTRA_SCREEN_MODE = "extra_mode"
