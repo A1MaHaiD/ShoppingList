@@ -2,11 +2,14 @@ package com.handroid.shoppinglist.presentation.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.handroid.shoppinglist.databinding.ActivityShoppingListBinding
 import com.handroid.shoppinglist.presentation.adapters.ShopListAdapter
+import com.handroid.shoppinglist.presentation.ui.fragments.ShopItemFragment
 import com.handroid.shoppinglist.presentation.view_models.ShoppingListViewModel
 
 class ShoppingListActivity : AppCompatActivity() {
@@ -14,11 +17,14 @@ class ShoppingListActivity : AppCompatActivity() {
     lateinit var binding: ActivityShoppingListBinding
     private lateinit var viewModel: ShoppingListViewModel
     private lateinit var shopListAdapter: ShopListAdapter
+    private var shopItemContainer: FragmentContainerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShoppingListBinding.inflate(layoutInflater)
-
+        val view = binding.root
+        setContentView(view)
+        shopItemContainer = binding.fcvItemContainer
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[ShoppingListViewModel::class.java]
         viewModel.shopList.observe(this) {
@@ -26,11 +32,29 @@ class ShoppingListActivity : AppCompatActivity() {
         }
         val buttonAddItem = binding.fabAddShopItem
         buttonAddItem.setOnClickListener {
-            val intent = ShopItemActivity.newIntentAddItem(this)
-            startActivity(intent)
+            if (switchOrientationOff()) {
+                val intent = ShopItemActivity.newIntentAddItem(this)
+                startActivity(intent)
+            } else {
+                launchFragment(ShopItemFragment.newInstanceAddItem())
+            }
         }
-        val view = binding.root
-        setContentView(view)
+    }
+
+    private fun switchOrientationOff(): Boolean {
+        return shopItemContainer == null
+    }
+
+    private fun launchFragment(fragment: Fragment) {
+        shopItemContainer?.let {
+            with(supportFragmentManager) {
+                popBackStack()
+                beginTransaction()
+                    .replace(it.id, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -79,8 +103,12 @@ class ShoppingListActivity : AppCompatActivity() {
 
     private fun setupOnClickListener() {
         shopListAdapter.onShopItemClickListener = {
-            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
-            startActivity(intent)
+            if (switchOrientationOff()) {
+                val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+                startActivity(intent)
+            } else {
+                launchFragment(ShopItemFragment.newInstanceEditItem(it.id))
+            }
         }
     }
 
