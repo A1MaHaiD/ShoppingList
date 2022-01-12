@@ -1,6 +1,7 @@
 package com.handroid.shoppinglist.presentation.ui.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -12,8 +13,7 @@ import com.handroid.shoppinglist.presentation.adapters.ShopListAdapter
 import com.handroid.shoppinglist.presentation.ui.fragments.ShopItemFragment
 import com.handroid.shoppinglist.presentation.view_models.ShoppingListViewModel
 
-class ShoppingListActivity : AppCompatActivity() {
-
+class ShoppingListActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {
     lateinit var binding: ActivityShoppingListBinding
     private lateinit var viewModel: ShoppingListViewModel
     private lateinit var shopListAdapter: ShopListAdapter
@@ -39,6 +39,11 @@ class ShoppingListActivity : AppCompatActivity() {
                 launchFragment(ShopItemFragment.newInstanceAddItem())
             }
         }
+    }
+
+    override fun onEditingFinish() {
+        Toast.makeText(this@ShoppingListActivity,"Saved",Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 
     private fun switchOrientationOff(): Boolean {
