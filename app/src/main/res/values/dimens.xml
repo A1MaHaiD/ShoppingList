@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="size_button_16">16dp</dimen>
-    <dimen name="spacing_small_8">8dp</dimen>
+    <!-- spacing -->
     <dimen name="spacing_small_4">4dp</dimen>
-    <dimen name="corner_radius_4">4dp</dimen>
-    <dimen name="elevation_4">4dp</dimen>
+    <dimen name="spacing_small_8">8dp</dimen>
     <dimen name="spacing_normal_16">16dp</dimen>
+    <!-- sizes -->
+    <dimen name="size_button_16">16dp</dimen>
+    <dimen name="corner_radius_4">4dp</dimen>
+    <!-- elevations -->
+    <dimen name="elevation_4">4dp</dimen>
     <dimen name="elevation_1">1dp</dimen>
+    <!-- fonts -->
     <dimen name="font_normal_16">16sp</dimen>
 </resources>

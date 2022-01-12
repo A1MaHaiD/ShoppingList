@@ -21,7 +21,4 @@ interface ShopListDao {
 
 //    @Update(onConflict = OnConflictStrategy.REPLACE)
 //    fun updateShopListData(shopList: List<ShopItem>)
-
-//    @Delete(entity = ShopItem::class)
-//    fun removeShopItemData(shopItemId: Int):LiveData<ShopItem>
 }
