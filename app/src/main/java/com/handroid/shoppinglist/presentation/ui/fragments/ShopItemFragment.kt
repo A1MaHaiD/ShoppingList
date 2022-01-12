@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class ShopItemFragment : Fragment() {
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
     override fun onAttach(context: Context) {
+        Log.i("ShopItemFragment","onAttach")
         super.onAttach(context)
         if (context is OnEditingFinishListener){
             onEditingFinishListener = context
@@ -36,6 +38,7 @@ class ShopItemFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i("ShopItemFragment","onCreate")
         super.onCreate(savedInstanceState)
         parseParams()
     }
@@ -44,12 +47,14 @@ class ShopItemFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        Log.i("ShopItemFragment","onCreateView")
         binding = FragmentShopItemBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.i("ShopItemFragment","onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         fieldInit()
@@ -58,9 +63,14 @@ class ShopItemFragment : Fragment() {
         observeViewModel()
     }
 
-    private fun fieldInit() {
-        fieldName = binding.tiEtName
-        fieldCount = binding.tiEtCount
+    override fun onStart() {
+        Log.i("ShopItemFragment","onStart")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        Log.i("ShopItemFragment","onResume")
+        super.onResume()
     }
 
     private fun observeViewModel() {
@@ -156,6 +166,36 @@ class ShopItemFragment : Fragment() {
             }
             shopItemId = args.getInt(SHOP_ITEM_ID, ShopItem.UNDEFINED_ID)
         }
+    }
+
+    private fun fieldInit() {
+        fieldName = binding.tiEtName
+        fieldCount = binding.tiEtCount
+    }
+
+    override fun onPause() {
+        Log.i("ShopItemFragment","onPause")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        Log.i("ShopItemFragment","onStop")
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        Log.i("ShopItemFragment","onDestroyView")
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        Log.i("ShopItemFragment","onDestroy")
+        super.onDestroy()
+    }
+
+    override fun onDetach() {
+        Log.i("ShopItemFragment","onDetach")
+        super.onDetach()
     }
 
     interface OnEditingFinishListener {
