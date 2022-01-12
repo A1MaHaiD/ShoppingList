@@ -1,9 +1,9 @@
 package com.handroid.shoppinglist.presentation.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,14 +19,23 @@ class ShopItemFragment : Fragment() {
 
     private lateinit var binding: FragmentShopItemBinding
     private lateinit var viewModel: ShopItemViewModel
+    private lateinit var onEditingFinishListener: OnEditingFinishListener
     private lateinit var fieldName: TextInputEditText
     private lateinit var fieldCount: TextInputEditText
 
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishListener){
+            onEditingFinishListener = context
+        } else{
+            throw RuntimeException("Activity must implement OnEditingFinishListener")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i("ShopItemFragment","onCreate")
         super.onCreate(savedInstanceState)
         parseParams()
     }
@@ -72,7 +81,7 @@ class ShopItemFragment : Fragment() {
             binding.tilCount.error = errorMessage
         }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            onEditingFinishListener.onEditingFinish()
         }
     }
 
@@ -147,6 +156,10 @@ class ShopItemFragment : Fragment() {
             }
             shopItemId = args.getInt(SHOP_ITEM_ID, ShopItem.UNDEFINED_ID)
         }
+    }
+
+    interface OnEditingFinishListener {
+        fun onEditingFinish()
     }
 
     companion object {
