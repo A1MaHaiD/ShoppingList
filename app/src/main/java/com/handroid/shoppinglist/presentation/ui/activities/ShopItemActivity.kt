@@ -20,8 +20,7 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShopItemBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
         container = binding.shopItemContainer
         parseIntent()
         if (savedInstanceState == null) {

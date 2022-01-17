@@ -22,8 +22,7 @@ class ShoppingListActivity : AppCompatActivity(), ShopItemFragment.OnEditingFini
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShoppingListBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
         shopItemContainer = binding.fcvItemContainer
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[ShoppingListViewModel::class.java]

@@ -2,8 +2,11 @@ package com.handroid.shoppinglist.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import com.handroid.shoppinglist.R
+import com.handroid.shoppinglist.databinding.ItemShopSelectedBinding
 import com.handroid.shoppinglist.databinding.ItemShopUnselectedBinding
 import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.presentation.adapters.viewholders.ShopItemVH
@@ -20,8 +23,9 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()
             NOT_SELECTED -> R.layout.item_shop_unselected
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
-        val binding = ItemShopUnselectedBinding.inflate(
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
             LayoutInflater.from(parent.context),
+            layout,
             parent, false
         )
         return ShopItemVH(binding)
@@ -37,10 +41,17 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()
         binding.root.setOnClickListener {
             onShopItemClickListener?.invoke(shopItem)
         }
-        binding.tvName.text = shopItem.name
-        binding.tvCount.text = shopItem.count.toString()
+        when (binding) {
+            is ItemShopUnselectedBinding -> {
+                binding.tvName.text = shopItem.name
+                binding.tvCount.text = shopItem.count.toString()
+            }
+            is ItemShopSelectedBinding -> {
+                binding.tvName.text = shopItem.name
+                binding.tvCount.text = shopItem.count.toString()
+            }
+        }
     }
-
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)

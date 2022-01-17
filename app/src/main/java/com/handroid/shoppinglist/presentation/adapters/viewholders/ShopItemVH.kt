@@ -1,8 +1,8 @@
 package com.handroid.shoppinglist.presentation.adapters.viewholders
 
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.handroid.shoppinglist.databinding.ItemShopUnselectedBinding
 
 class ShopItemVH(
-    val binding: ItemShopUnselectedBinding
+    val binding: ViewDataBinding
     ) : RecyclerView.ViewHolder(binding.root)
