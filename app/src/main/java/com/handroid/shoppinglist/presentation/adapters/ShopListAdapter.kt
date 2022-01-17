@@ -43,12 +43,10 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()
         }
         when (binding) {
             is ItemShopUnselectedBinding -> {
-                binding.tvName.text = shopItem.name
-                binding.tvCount.text = shopItem.count.toString()
+                binding.shopItem = shopItem
             }
             is ItemShopSelectedBinding -> {
-                binding.tvName.text = shopItem.name
-                binding.tvCount.text = shopItem.count.toString()
+                binding.shopItem = shopItem
             }
         }
     }

@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.handroid.shoppinglist.data.ShopListRepositoryImpl
-import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.domain.AddShopItemUseCase
 import com.handroid.shoppinglist.domain.EditShopItemUseCase
 import com.handroid.shoppinglist.domain.GetShopItemUseCase
+import com.handroid.shoppinglist.domain.ShopItem
 
 class ShopItemViewModel : ViewModel() {
 
