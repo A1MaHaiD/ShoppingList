@@ -173,31 +173,6 @@ class ShopItemFragment : Fragment() {
         fieldCount = binding.tiEtCount
     }
 
-    override fun onPause() {
-        Log.i("ShopItemFragment","onPause")
-        super.onPause()
-    }
-
-    override fun onStop() {
-        Log.i("ShopItemFragment","onStop")
-        super.onStop()
-    }
-
-    override fun onDestroyView() {
-        Log.i("ShopItemFragment","onDestroyView")
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        Log.i("ShopItemFragment","onDestroy")
-        super.onDestroy()
-    }
-
-    override fun onDetach() {
-        Log.i("ShopItemFragment","onDetach")
-        super.onDetach()
-    }
-
     interface OnEditingFinishListener {
         fun onEditingFinish()
     }

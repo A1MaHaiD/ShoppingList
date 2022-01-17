@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.handroid.shoppinglist.R
+import com.handroid.shoppinglist.databinding.ItemShopUnselectedBinding
 import com.handroid.shoppinglist.domain.ShopItem
 import com.handroid.shoppinglist.presentation.adapters.viewholders.ShopItemVH
 import com.handroid.shoppinglist.presentation.utils.ShopItemDiffCallback
@@ -19,30 +20,27 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemVH>(ShopItemDiffCallback()
             NOT_SELECTED -> R.layout.item_shop_unselected
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
-        val view = LayoutInflater.from(parent.context).inflate(
-            layout,
-            parent,
-            false
+        val binding = ItemShopUnselectedBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
         )
-        return ShopItemVH(view)
+        return ShopItemVH(binding)
     }
 
     override fun onBindViewHolder(viewHolder: ShopItemVH, position: Int) {
         val shopItem = getItem(position)
-        with(viewHolder) {
-            with(view){
-                setOnLongClickListener {
-                    onShopItemLongClickListener?.invoke(shopItem)
-                    true
-                }
-                setOnClickListener {
-                    onShopItemClickListener?.invoke(shopItem)
-                }
-            }
-            tvName.text = shopItem.name
-            tvCount.text = shopItem.count.toString()
+        val binding = viewHolder.binding
+        binding.root.setOnLongClickListener {
+            onShopItemLongClickListener?.invoke(shopItem)
+            true
         }
+        binding.root.setOnClickListener {
+            onShopItemClickListener?.invoke(shopItem)
+        }
+        binding.tvName.text = shopItem.name
+        binding.tvCount.text = shopItem.count.toString()
     }
+
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
