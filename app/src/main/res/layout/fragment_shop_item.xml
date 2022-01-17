@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.handroid.shoppinglist.presentation.view_models.ShopItemViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -14,6 +20,7 @@
             android:layout_marginStart="@dimen/spacing_small_8"
             android:layout_marginEnd="@dimen/spacing_small_8"
             android:layout_marginBottom="@dimen/spacing_small_4"
+            app:errorInputName="@{viewModel.errorInputName}"
             app:layout_constraintBottom_toTopOf="@id/til_count"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_name"
                 android:inputType="textCapWords"
+                android:text="@{viewModel.shopItem.name}"
                 tools:ignore="TouchTargetSizeCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -34,8 +42,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small_8"
-            android:layout_marginEnd="@dimen/spacing_small_8"
             android:layout_marginTop="@dimen/spacing_small_4"
+            android:layout_marginEnd="@dimen/spacing_small_8"
+            app:errorInputCount="@{viewModel.errorInputCount}"
             app:layout_constraintBottom_toTopOf="@id/btn_save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_count"
-                android:inputType="number" />
+                android:inputType="number"
+                android:text="@{String.valueOf(viewModel.shopItem.count)}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
