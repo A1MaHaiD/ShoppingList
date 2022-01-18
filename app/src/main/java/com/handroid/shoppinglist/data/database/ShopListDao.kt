@@ -2,23 +2,19 @@ package com.handroid.shoppinglist.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.handroid.shoppinglist.domain.ShopItem
 
 @Dao
 interface ShopListDao {
 
-    @Query("SELECT * FROM shop_list ORDER BY id")
-    fun getShopListData(): LiveData<List<ShopItem>>
-
-    @Query("SELECT * FROM shop_list WHERE id == :shopItemId")
-    fun getShopItemData(shopItemId: Int): LiveData<ShopItem>
-
-//    @Query("SELECT * FROM shop_list WHERE name == :name")
-//    fun getShopItemData(name: String): LiveData<ShopItem>
+    @Query("SELECT * FROM shop_items")
+    fun getShopListData(): LiveData<List<ShopItemDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertShopListData(shopList: List<ShopItem>)
+    fun addShopItemData(shopItemDbModel: ShopItemDbModel)
 
-//    @Update(onConflict = OnConflictStrategy.REPLACE)
-//    fun updateShopListData(shopList: List<ShopItem>)
+    @Query("DELETE FROM shop_items WHERE id = :shopItemId")
+    fun deleteShopItemData(shopItemId: Int)
+
+    @Query("SELECT * FROM shop_items WHERE id = :shopItemId LIMIT 1")
+    fun getShopItemData(shopItemId: Int): ShopItemDbModel
 }
