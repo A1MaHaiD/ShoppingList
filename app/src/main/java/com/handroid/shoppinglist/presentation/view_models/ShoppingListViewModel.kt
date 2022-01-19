@@ -2,11 +2,13 @@ package com.handroid.shoppinglist.presentation.view_models
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.handroid.shoppinglist.data.ShopListRepositoryImpl
 import com.handroid.shoppinglist.domain.EditShopItemUseCase
 import com.handroid.shoppinglist.domain.GetShopListUseCase
 import com.handroid.shoppinglist.domain.RemoveShopItemUseCase
 import com.handroid.shoppinglist.domain.ShopItem
+import kotlinx.coroutines.launch
 
 class ShoppingListViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,11 +21,15 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
     val shopList = getShopListUserCase.getShopList()
 
     fun removeShopItem(shopItem: ShopItem) {
-        removeShopItemUserCase.removeShopItem(shopItem)
+        viewModelScope.launch {
+            removeShopItemUserCase.removeShopItem(shopItem)
+        }
     }
 
     fun changeSelectedState(shopItem: ShopItem) {
-        val newItem = shopItem.copy(isSelected = !shopItem.isSelected)
-        editShopItemUserCase.editShopItem(newItem)
+        viewModelScope.launch {
+            val newItem = shopItem.copy(isSelected = !shopItem.isSelected)
+            editShopItemUserCase.editShopItem(newItem)
+        }
     }
 }
