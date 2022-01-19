@@ -7,15 +7,15 @@ class ShopListMapper {
 
     fun mapEntityToDbModel(shopItem: ShopItem) = ShopItemDbModel(
         id = shopItem.id,
+        name = shopItem.name,
         count = shopItem.count,
-        name = shopItem.toString(),
         isSelected = shopItem.isSelected
     )
 
     fun mapDbModelToEntity(shopItemDbModel: ShopItemDbModel) = ShopItem(
         id = shopItemDbModel.id,
+        name = shopItemDbModel.name,
         count = shopItemDbModel.count,
-        name = shopItemDbModel.toString(),
         isSelected = shopItemDbModel.isSelected
     )
 
