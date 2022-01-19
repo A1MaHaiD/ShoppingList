@@ -7,6 +7,10 @@ import com.handroid.shoppinglist.domain.EditShopItemUseCase
 import com.handroid.shoppinglist.domain.GetShopListUseCase
 import com.handroid.shoppinglist.domain.RemoveShopItemUseCase
 import com.handroid.shoppinglist.domain.ShopItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class ShoppingListViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -18,12 +22,23 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
 
     val shopList = getShopListUserCase.getShopList()
 
+    private val scope = CoroutineScope(Dispatchers.IO)
+
     fun removeShopItem(shopItem: ShopItem) {
-        removeShopItemUserCase.removeShopItem(shopItem)
+        scope.launch {
+            removeShopItemUserCase.removeShopItem(shopItem)
+        }
     }
 
     fun changeSelectedState(shopItem: ShopItem) {
-        val newItem = shopItem.copy(isSelected = !shopItem.isSelected)
-        editShopItemUserCase.editShopItem(newItem)
+        scope.launch {
+            val newItem = shopItem.copy(isSelected = !shopItem.isSelected)
+            editShopItemUserCase.editShopItem(newItem)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        scope.cancel()
     }
 }
