@@ -1,9 +1,8 @@
 package com.handroid.shoppinglist.presentation.view_models
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.handroid.shoppinglist.domain.AddShopItemUseCase
 import com.handroid.shoppinglist.domain.EditShopItemUseCase
@@ -13,11 +12,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShopItemViewModel @Inject constructor(
-    application: Application,
     private val getShopElementUseCase: GetShopItemUseCase,
     private val addShopElementUseCase: AddShopItemUseCase,
     private val editShopElementUseCase: EditShopItemUseCase
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>

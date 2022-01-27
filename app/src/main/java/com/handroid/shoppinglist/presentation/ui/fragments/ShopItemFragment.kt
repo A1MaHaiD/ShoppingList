@@ -30,8 +30,6 @@ class ShopItemFragment : Fragment() {
 
     private val component by lazy {
         (requireActivity().application as ShoppingApp).component
-            .activityComponentFactory()
-            .create(2,"Fragment",5,true)
     }
 
     private lateinit var onEditingFinishListener: OnEditingFinishListener

@@ -25,8 +25,6 @@ class ShoppingListActivity : AppCompatActivity(), ShopItemFragment.OnEditingFini
 
     private val component by lazy {
         (application as ShoppingApp).component
-            .activityComponentFactory()
-            .create(1,"Activity",10,true)
     }
 
     private lateinit var shopListAdapter: ShopListAdapter

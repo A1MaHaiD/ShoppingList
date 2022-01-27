@@ -1,8 +1,6 @@
 package com.handroid.shoppinglist.domain
 
-import javax.inject.Inject
-
-data class ShopItem @Inject constructor(
+data class ShopItem(
     val name: String,
     val count: Int,
     val isSelected: Boolean,

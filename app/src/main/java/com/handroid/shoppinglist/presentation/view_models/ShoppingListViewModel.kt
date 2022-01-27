@@ -1,9 +1,7 @@
 package com.handroid.shoppinglist.presentation.view_models
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.handroid.shoppinglist.data.ShopListRepositoryImpl
 import com.handroid.shoppinglist.domain.EditShopItemUseCase
 import com.handroid.shoppinglist.domain.GetShopListUseCase
 import com.handroid.shoppinglist.domain.RemoveShopItemUseCase
@@ -12,11 +10,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShoppingListViewModel @Inject constructor(
-    application: Application,
     private val getShopListUserCase: GetShopListUseCase,
     private val removeShopItemUserCase: RemoveShopItemUseCase,
     private val editShopItemUserCase: EditShopItemUseCase
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     val shopList = getShopListUserCase.getShopList()
 

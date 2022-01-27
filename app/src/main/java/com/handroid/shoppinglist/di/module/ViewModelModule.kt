@@ -9,7 +9,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-interface ShoppingViewModelModule {
+interface ViewModelModule {
 
     @IntoMap
     @ViewModelKey(ShopItemViewModel::class)

@@ -1,6 +1,5 @@
 package com.handroid.shoppinglist.data
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.handroid.shoppinglist.data.database.ShopListDao
@@ -9,7 +8,6 @@ import com.handroid.shoppinglist.domain.ShopListRepository
 import javax.inject.Inject
 
 class ShopListRepositoryImpl @Inject constructor(
-    application: Application,
     private val shopListDao: ShopListDao,
     private val mapper: ShopListMapper
 ) : ShopListRepository {
