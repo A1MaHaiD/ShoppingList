@@ -9,14 +9,14 @@ import com.handroid.shoppinglist.domain.GetShopListUseCase
 import com.handroid.shoppinglist.domain.RemoveShopItemUseCase
 import com.handroid.shoppinglist.domain.ShopItem
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ShoppingListViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = ShopListRepositoryImpl(application)
-
-    private val getShopListUserCase = GetShopListUseCase(repository)
-    private val removeShopItemUserCase = RemoveShopItemUseCase(repository)
-    private val editShopItemUserCase = EditShopItemUseCase(repository)
+class ShoppingListViewModel @Inject constructor(
+    application: Application,
+    private val getShopListUserCase: GetShopListUseCase,
+    private val removeShopItemUserCase: RemoveShopItemUseCase,
+    private val editShopItemUserCase: EditShopItemUseCase
+) : AndroidViewModel(application) {
 
     val shopList = getShopListUserCase.getShopList()
 

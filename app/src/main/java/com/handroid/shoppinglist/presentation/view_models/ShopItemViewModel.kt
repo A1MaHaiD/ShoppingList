@@ -5,20 +5,19 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.handroid.shoppinglist.data.ShopListRepositoryImpl
 import com.handroid.shoppinglist.domain.AddShopItemUseCase
 import com.handroid.shoppinglist.domain.EditShopItemUseCase
 import com.handroid.shoppinglist.domain.GetShopItemUseCase
 import com.handroid.shoppinglist.domain.ShopItem
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = ShopListRepositoryImpl(application)
-
-    private val getShopElementUseCase = GetShopItemUseCase(repository)
-    private val addShopElementUseCase = AddShopItemUseCase(repository)
-    private val editShopElementUseCase = EditShopItemUseCase(repository)
+class ShopItemViewModel @Inject constructor(
+    application: Application,
+    private val getShopElementUseCase: GetShopItemUseCase,
+    private val addShopElementUseCase: AddShopItemUseCase,
+    private val editShopElementUseCase: EditShopItemUseCase
+) : AndroidViewModel(application) {
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>

@@ -2,8 +2,9 @@ package com.handroid.shoppinglist.data
 
 import com.handroid.shoppinglist.data.database.ShopItemDbModel
 import com.handroid.shoppinglist.domain.ShopItem
+import javax.inject.Inject
 
-class ShopListMapper {
+class ShopListMapper @Inject constructor() {
 
     fun mapEntityToDbModel(shopItem: ShopItem) = ShopItemDbModel(
         id = shopItem.id,

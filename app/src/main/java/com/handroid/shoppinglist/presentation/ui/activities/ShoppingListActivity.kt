@@ -8,21 +8,36 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.handroid.shoppinglist.databinding.ActivityShoppingListBinding
+import com.handroid.shoppinglist.presentation.ShoppingApp
 import com.handroid.shoppinglist.presentation.adapters.ShopListAdapter
 import com.handroid.shoppinglist.presentation.ui.fragments.ShopItemFragment
 import com.handroid.shoppinglist.presentation.view_models.ShoppingListViewModel
+import com.handroid.shoppinglist.presentation.view_models.ViewModelFactory
+import javax.inject.Inject
 
 class ShoppingListActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {
+
     lateinit var binding: ActivityShoppingListBinding
     private lateinit var viewModel: ShoppingListViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (application as ShoppingApp).component
+            .activityComponentFactory()
+            .create(1,"Activity",10,true)
+    }
+
     private lateinit var shopListAdapter: ShopListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityShoppingListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupRecyclerView()
-        viewModel = ViewModelProvider(this)[ShoppingListViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShoppingListViewModel::class.java]
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
         }
@@ -38,7 +53,7 @@ class ShoppingListActivity : AppCompatActivity(), ShopItemFragment.OnEditingFini
     }
 
     override fun onEditingFinish() {
-        Toast.makeText(this@ShoppingListActivity,"Saved",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@ShoppingListActivity, "Saved", Toast.LENGTH_SHORT).show()
         supportFragmentManager.popBackStack()
     }
 
@@ -92,6 +107,7 @@ class ShoppingListActivity : AppCompatActivity(), ShopItemFragment.OnEditingFini
             ): Boolean {
                 return false
             }
+
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val item = shopListAdapter.currentList[viewHolder.adapterPosition]
                 viewModel.removeShopItem(item)

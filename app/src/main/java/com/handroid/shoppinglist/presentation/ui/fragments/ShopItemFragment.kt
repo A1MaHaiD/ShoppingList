@@ -12,7 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.handroid.shoppinglist.databinding.FragmentShopItemBinding
 import com.handroid.shoppinglist.domain.ShopItem
+import com.handroid.shoppinglist.presentation.ShoppingApp
 import com.handroid.shoppinglist.presentation.view_models.ShopItemViewModel
+import com.handroid.shoppinglist.presentation.view_models.ViewModelFactory
+import javax.inject.Inject
 
 class ShopItemFragment : Fragment() {
 
@@ -21,12 +24,22 @@ class ShopItemFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("ShopItemFragment == null")
 
     private lateinit var viewModel: ShopItemViewModel
-    private lateinit var onEditingFinishListener: OnEditingFinishListener
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (requireActivity().application as ShoppingApp).component
+            .activityComponentFactory()
+            .create(2,"Fragment",5,true)
+    }
+
+    private lateinit var onEditingFinishListener: OnEditingFinishListener
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
     override fun onAttach(context: Context) {
+        component.inject(this)
         Log.i("ShopItemFragment", "onAttach")
         super.onAttach(context)
         if (context is OnEditingFinishListener) {
@@ -55,7 +68,7 @@ class ShopItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.i("ShopItemFragment", "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShopItemViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         addTextChangeListeners()
